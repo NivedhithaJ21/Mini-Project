@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AI Glaucoma Detector</title>
+    <style>
+        body { font-family: Arial; background: #667eea; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .box { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 500px; width: 90%; }
+        h1 { color: #2c3e50; }
+        .upload { border: 2px dashed #667eea; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        button { background: #667eea; color: white; border: none; padding: 14px; border-radius: 10px; font-size: 16px; cursor: pointer; width: 100%; }
+        .normal { background: #d4edda; color: #155724; padding: 15px; border-radius: 10px; margin-top: 20px; font-weight: bold; }
+        .borderline { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-top: 20px; font-weight: bold; }
+        .highrisk { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; margin-top: 20px; font-weight: bold; }
+        .details { background: #f8f9fa; border-radius: 10px; padding: 15px; margin-top: 15px; text-align: left; }
+        .row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>👁️ AI Glaucoma Detector</h1>
+        <p>Upload a retinal image to detect Glaucoma</p>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="upload">
+                <input type="file" name="image" accept="image/*" required>
+            </div>
+            <button type="submit">🔍 Analyze for Glaucoma</button>
+        </form>
+        {% if result %}
+            {% if 'Normal' in result %}
+                <div class="normal">{{ result }}</div>
+            {% endif %}
+            {% if 'Borderline' in result %}
+                <div class="borderline">{{ result }}</div>
+            {% endif %}
+            {% if 'Glaucoma Detected' in result %}
+                <div class="highrisk">{{ result }}</div>
+            {% endif %}
+        {% endif %}
+        {% if details %}
+            <div class="details">
+                <h3>📊 Analysis Details:</h3>
+                <div class="row"><span>Cup-to-Disc Ratio</span><b>{{ details.cdr }}</b></div>
+                <div class="row"><span>Contrast</span><b>{{ details.contrast }}</b></div>
+                <div class="row"><span>Red Channel</span><b>{{ details.red_mean }}</b></div>
+                <div class="row"><span>Green Channel</span><b>{{ details.green_mean }}</b></div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
